@@ -244,7 +244,7 @@ class GenVHDLMemC:
                 if int_flag:
                     threshold = int(math.floor(threshold)) 
                 
-                threshold_bin = Fxp(threshold, signed_flag, self.m_size, dec_size, rounding='floor')
+                threshold_bin = Fxp(threshold, bool(signed_flag), int(self.m_size), int(dec_size), rounding='floor')#force the type to meet Fxp type
                 signed_logic = '1' if signed_flag else '0'
 
                 item_idx, group_idx = self.get_item_group_idx(feature)
@@ -261,7 +261,7 @@ class GenVHDLMemC:
             # LEAF record generation
             else:
                 value = rec_dict['value']
-                value_bin = Fxp(value, self.model.output_value_quantization[1], leaf_value_size, self.model.output_value_quantization[3])
+                value_bin = Fxp(value, bool(self.model.output_value_quantization[1]), int(leaf_value_size), int(self.model.output_value_quantization[3])) # force the type to fit Fxp
                 mem_content += "\t\t\"1\" & \"{value}\",\n".format(value=value_bin.bin())
 
         return mem_content, mem_items, next_addr_size, instr_addr_size, instr_size, start_addr_list

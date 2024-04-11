@@ -25,7 +25,7 @@ class RunSimulation:
             signed_flag = self.model.feature_df.at[idx,'Signed']
             dec_size = self.model.feature_df.at[idx,'DecSize']
 
-            x = Fxp(vector[idx], signed_flag, mi_in_data_size, dec_size, rounding='floor')
+            x = Fxp(vector[idx], bool(signed_flag), int(mi_in_data_size), int(dec_size), rounding='floor') #force data type to fit Fxp
             bin_vec.append(x.bin())
 
         with open(file_name, 'w') as fw:
@@ -85,7 +85,7 @@ class RunSimulation:
             numbers = []
             for item in str_numbers:
                 item_str = "0b" + item
-                x = Fxp(item_str, output_value_quantizaton[1], output_value_quantizaton[2]+output_value_quantizaton[3], output_value_quantizaton[3])
+                x = Fxp(item_str, bool(output_value_quantizaton[1]), int(output_value_quantizaton[2]+output_value_quantizaton[3]), int(output_value_quantizaton[3])) # force data type to fit Fxp
                 numbers.append(x.astype(float))
 
         return numbers
